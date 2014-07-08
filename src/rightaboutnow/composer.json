@@ -1,0 +1,17 @@
+{
+	"name": "anneks/rightaboutnow",
+	"description": "Web framework built on top of Slim",
+	"license": "proprietary",
+
+	"minimum-stability": "stable",
+
+	"require": {
+		  "slim/slim": "2.*"
+		, "php": ">=5.4.0"
+		, "ext-pdo_mysql": "*"
+	},
+
+	"require-dev": {
+		"phpunit/phpunit": "4.*"
+	}
+}
