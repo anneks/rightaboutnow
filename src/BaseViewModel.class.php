@@ -17,4 +17,9 @@ abstract class BaseViewModel implements IViewModel
 	{
 		return INC.'/templates/'.str_replace('ViewModel', '', get_class($this)).'.php';
 	}
+
+	public function getPartialsDir()
+	{
+		return INC.'/templates/partials';
+	}
 }

@@ -36,6 +36,30 @@ class HtmlSlimView extends \Slim\View
 		include($model->getTemplate());
 	}
 
+	public function partial($template, array $data = array())
+	{
+		// define the variables for the view
+		foreach ($data as $key => $val)
+		{
+			${$key} = $val;
+		}
+
+		// render the template
+		ob_start();
+		/** @noinspection PhpIncludeInspection */
+		include($this->viewModel->getPartialsDir().'/'.$template.'.php');
+		$html = ob_get_contents();
+		ob_end_clean();
+
+		// remove the variables we defined
+		foreach ($data as $key => $val)
+		{
+			unset($key);
+		}
+
+		echo $html;
+	}
+
 	public function outputBlock($name)
 	{
 		if (!isset($this->blocks[$name]))
