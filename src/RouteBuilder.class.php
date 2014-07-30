@@ -57,7 +57,7 @@ class RouteBuilder
 
 	\$controller = \$container->get{CONTROLLER}();
 	\$viewModel = \$controller->execute(\$request, \$response);
-	\$app->render('', array('vm'=>\$viewModel));
+	\$app->render('', array('vm'=>\$viewModel, 'request'=>\$request));
 });
 EOF;
 

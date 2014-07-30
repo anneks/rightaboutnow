@@ -7,6 +7,11 @@ class HtmlSlimView extends \Slim\View
 	 */
 	protected $viewModel;
 
+	/**
+	 * @var IWebRequest
+	 */
+	protected $request;
+
 	protected $blocks = array();
 
 	public function hasLayout()
@@ -22,6 +27,7 @@ class HtmlSlimView extends \Slim\View
 	public function render($template, $data = null)
 	{
 		$this->viewModel = $this->data['vm'];
+		$this->request = @$this->data['request'];
 		$this->renderModel($this->viewModel);
 
 		if ($this->hasLayout())
@@ -94,5 +100,13 @@ class HtmlSlimView extends \Slim\View
 	public function safe($string)
 	{
 		return htmlspecialchars($string);
+	}
+
+	/**
+	 * @return IWebRequest
+	 */
+	public function getRequest()
+	{
+		return $this->request;
 	}
 }

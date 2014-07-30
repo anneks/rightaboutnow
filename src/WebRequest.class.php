@@ -38,4 +38,9 @@ class WebRequest implements IWebRequest
 
 		return $default;
 	}
+
+	function path()
+	{
+		return $this->slimRequest->getPath();
+	}
 }
