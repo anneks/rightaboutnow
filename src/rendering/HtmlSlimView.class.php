@@ -76,6 +76,14 @@ class HtmlSlimView extends \Slim\View
 		$this->blocks[$name]();
 	}
 
+	public function outputOptionalBlock($name)
+	{
+		if (isset($this->blocks[$name]))
+		{
+			$this->blocks[$name]();
+		}
+	}
+
 	public function setBlock($name, $function)
 	{
 		$this->blocks[$name] = $function;
