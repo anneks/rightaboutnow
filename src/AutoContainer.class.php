@@ -72,7 +72,7 @@ abstract class AutoContainer
 
 						// instantiate the class and add it to the
 						// parameters list
-						if (class_exists($hintedClassName))
+						if (class_exists($hintedClassName) || interface_exists($hintedClassName))
 						{
 							// the hinted class could have hinted class parameters and other types as well
 							$methodName = 'get'.$this->getNamespacedClassName($hintedClassName);
