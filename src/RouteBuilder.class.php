@@ -56,8 +56,8 @@ class RouteBuilder
 
 	private static $template = <<<EOF
 \$this->app->{METHOD}('{ROUTE}',{MIDDLEWARE} function({PARAMS}) use (\$app, \$container) {
-	\$request = new WebRequest(\$app->request);
-	\$response = new WebResponse(\$app->response, \$app);
+	\$request = \$container->getIWebRequest(\$app->request);
+	\$response = \$container->getIWebResponse(\$app->response, \$app);
 
 	{SETPARAMS}
 
@@ -78,8 +78,6 @@ EOF;
 		$code = str_replace('{PARAMS}', $this->getParamsAsParameterList(), $code);
 		$code = str_replace('{SETPARAMS}', $this->getParamSettingCode(), $code);
 		$code = str_replace('{CONTROLLER}', $this->controllerName, $code);
-
-		file_put_contents('/tmp/routebuilder', $code."\n\n\n", FILE_APPEND);
 
 		return $code;
 	}
