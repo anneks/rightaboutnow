@@ -16,4 +16,9 @@ class WebResponse implements IWebResponse
 		$this->slimResponse = $slimResponse;
 		$this->slimApp = $slimApp;
 	}
+
+	function redirect($url)
+	{
+		$this->slimApp->redirect($url);
+	}
 }
