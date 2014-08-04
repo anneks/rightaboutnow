@@ -6,6 +6,7 @@ class RouteBuilder
 	private $route;
 	private $controllerName;
 	private $params = array();
+	private $middleware = array();
 
 	public function getMethod()
 	{
@@ -47,9 +48,14 @@ class RouteBuilder
 		$this->params[] = $param;
 	}
 
+	public function addMiddleware($middleware)
+	{
+		$this->middleware[] = $middleware;
+	}
+
 
 	private static $template = <<<EOF
-\$this->app->{METHOD}('{ROUTE}', function({PARAMS}) use (\$app, \$container) {
+\$this->app->{METHOD}('{ROUTE}',{MIDDLEWARE} function({PARAMS}) use (\$app, \$container) {
 	\$request = new WebRequest(\$app->request);
 	\$response = new WebResponse(\$app->response, \$app);
 
@@ -68,9 +74,12 @@ EOF;
 
 		$code = str_replace('{METHOD}', $this->method, $code);
 		$code = str_replace('{ROUTE}', $this->route, $code);
+		$code = str_replace('{MIDDLEWARE}', $this->getMiddleware(), $code);
 		$code = str_replace('{PARAMS}', $this->getParamsAsParameterList(), $code);
 		$code = str_replace('{SETPARAMS}', $this->getParamSettingCode(), $code);
 		$code = str_replace('{CONTROLLER}', $this->controllerName, $code);
+
+		file_put_contents('/tmp/routebuilder', $code."\n\n\n", FILE_APPEND);
 
 		return $code;
 	}
@@ -97,5 +106,21 @@ EOF;
 		}
 
 		return implode("\n", $x);
+	}
+
+	private function getMiddleware()
+	{
+		$code = '';
+		foreach ($this->middleware as $middlewareClass)
+		{
+			$code .= <<<EOF
+function(\Slim\Route \$route) use (\$app, \$container) {
+	\$x = \$container->get{$middlewareClass}();
+	\$x->execute(\$route, \$app);
+},
+EOF;
+		}
+
+		return $code;
 	}
 }

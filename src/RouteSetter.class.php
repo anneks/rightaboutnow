@@ -20,7 +20,7 @@ class RouteSetter
 	private $fileSystem;
 
 	public function __construct(
-		  \Slim\Slim $app
+		\Slim\Slim $app
 		, ReflectionHelper $reflectionHelper
 		, Container $container
 		, FileSystem $fileSystem
@@ -71,6 +71,9 @@ class RouteSetter
 		/** @noinspection PhpUnusedLocalVariableInspection */
 		$app = $this->app;
 
+		$middlewareAnnotations = $annotations->getWithName('middleware');
+
+
 		foreach ($annotations->getWithName('route') as $ano)
 		{
 			$builder = new RouteBuilder();
@@ -82,6 +85,11 @@ class RouteSetter
 			foreach ($matches[1] as $match)
 			{
 				$builder->addParam($match);
+			}
+
+			foreach ($middlewareAnnotations as $midAno)
+			{
+				$builder->addMiddleware($midAno->getValues()[0]);
 			}
 
 			eval($builder->render());
