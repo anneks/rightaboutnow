@@ -66,4 +66,16 @@ class DatabaseConnection
 		//file_put_contents('/tmp/get_debug', $sth->queryString."\n", FILE_APPEND);
 		return $sth->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	/**
+	 * @param string $query
+	 * @param array $parameters
+	 */
+	public function update($query, array $parameters = array())
+	{
+		$this->connect();
+
+		$sth = $this->pdo->prepare($query, array());
+		$sth->execute($parameters);
+	}
 }
