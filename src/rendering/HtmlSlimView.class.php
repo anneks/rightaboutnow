@@ -14,6 +14,29 @@ class HtmlSlimView extends \Slim\View
 
 	protected $blocks = array();
 
+	/**
+	 * @return array
+	 */
+	public function getAllFlashes()
+	{
+		return $_SESSION['slim.flash'];
+	}
+
+	public function hasFlash($key)
+	{
+		return isset($_SESSION['slim.flash'][$key]);
+	}
+
+	public function getFlash($key)
+	{
+		if (isset($_SESSION['slim.flash'][$key]))
+		{
+			return $_SESSION['slim.flash'][$key];
+		}
+
+		return '';
+	}
+
 	public function hasLayout()
 	{
 		return !is_null($this->viewModel->getLayout());

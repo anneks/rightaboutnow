@@ -21,4 +21,9 @@ class WebResponse implements IWebResponse
 	{
 		$this->slimApp->redirect($url);
 	}
+
+	function flash($key, $message)
+	{
+		$this->slimApp->flash($key, $message);
+	}
 }
