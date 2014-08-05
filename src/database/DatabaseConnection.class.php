@@ -41,7 +41,7 @@ class DatabaseConnection
 	/**
 	 * @param string $query
 	 * @param array $parameters
-	 * @return array
+	 * @return array|null
 	 */
 	public function getSingle($query, array $parameters = array())
 	{
@@ -50,7 +50,14 @@ class DatabaseConnection
 		$sth = $this->pdo->prepare($query, array());
 		$sth->execute($parameters);
 		//file_put_contents('/tmp/get_debug', $sth->queryString."\n", FILE_APPEND);
-		return $sth->fetch(PDO::FETCH_ASSOC);
+		$res = $sth->fetch(PDO::FETCH_ASSOC);
+
+		if (is_array($res))
+		{
+			return $res;
+		}
+
+		return null;
 	}
 
 	/**
