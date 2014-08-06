@@ -44,7 +44,7 @@ class RouteSetter
 
 	private function getControllers($controllerDirectory)
 	{
-		$result = [];
+		$result = array();
 
 		/**
 		 * @var $file SplFileInfo
