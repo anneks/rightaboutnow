@@ -61,8 +61,10 @@ class HtmlSlimView extends \Slim\View
 
 	protected function renderModel(IViewModel $model)
 	{
+		$slimView = $this;
 		/** @noinspection PhpIncludeInspection */
 		include($model->getTemplate());
+		unset($slimView);
 	}
 
 	public function partial($template, array $data = array())
