@@ -11,7 +11,7 @@ class RouteSetter
 	 */
 	private $reflectionHelper;
 	/**
-	 * @var Container
+	 * @var AutoContainer
 	 */
 	private $container;
 	/**
@@ -22,7 +22,7 @@ class RouteSetter
 	public function __construct(
 		\Slim\Slim $app
 		, ReflectionHelper $reflectionHelper
-		, Container $container
+		, AutoContainer $container
 		, FileSystem $fileSystem
 	)
 	{
@@ -77,11 +77,12 @@ class RouteSetter
 		foreach ($annotations->getWithName('route') as $ano)
 		{
 			$builder = new RouteBuilder();
-			$builder->setMethod(strtolower($ano->getValues()[0]));
+			$values = $ano->getValues();
+			$builder->setMethod(strtolower($values[0]));
 			$builder->setControllerName($controllerClass);
-			$builder->setRoute($ano->getValues()[1]);
+			$builder->setRoute($values[1]);
 
-			preg_match_all('/\/:([a-z0-9]+)/i', $ano->getValues()[1], $matches);
+			preg_match_all('/\/:([a-z0-9]+)/i', $values[1], $matches);
 			foreach ($matches[1] as $match)
 			{
 				$builder->addParam($match);
@@ -89,7 +90,8 @@ class RouteSetter
 
 			foreach ($middlewareAnnotations as $midAno)
 			{
-				$builder->addMiddleware($midAno->getValues()[0]);
+				$midValues = $midAno->getValues();
+				$builder->addMiddleware($midValues[0]);
 			}
 
 			eval($builder->render());
