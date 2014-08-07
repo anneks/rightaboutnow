@@ -87,4 +87,9 @@ class DatabaseConnection
 		$sth = $this->pdo->prepare($query, array());
 		$sth->execute($parameters);
 	}
+
+	public function getLastInsertId()
+	{
+		return $this->pdo->lastInsertId();
+	}
 }
