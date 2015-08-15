@@ -24,9 +24,19 @@ class WebRequest implements IWebRequest
 		return $this->slimRequest->get($key, $default);
 	}
 
+	function getAll()
+	{
+		return $this->slimRequest->get();
+	}
+
 	function post($key, $default = null)
 	{
 		return $this->slimRequest->post($key, $default);
+	}
+
+	function postAll()
+	{
+		return $this->slimRequest->post();
 	}
 
 	function routeParam($key, $default = null)

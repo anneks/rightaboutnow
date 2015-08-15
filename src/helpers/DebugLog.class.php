@@ -24,9 +24,19 @@ class DebugLog
 			self::write($msg ? 'true' : 'false', $file);
 		}
 
+		elseif (is_object($msg))
+		{
+			self::write(get_class($msg), $file);
+		}
+
 		else
 		{
 			self::write($msg, $file);
 		}
+	}
+
+	public static function separator($file = '/tmp/debuglog')
+	{
+		self::write("\n\n\n\n===================================\n\n\n\n", $file);
 	}
 }
