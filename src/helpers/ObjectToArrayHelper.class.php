@@ -32,7 +32,7 @@ class ObjectToArrayHelper
 				$annotations = $this->reflectionHelper->getAnnotations($field->getDocComment());
 				$calculatedByAnnotations = $annotations->getWithName('calculatedBy');
 				$values = $calculatedByAnnotations[0]->getValues();
-				$instance->$values[0]();
+				$instance->{$values[0]}();
 			}
 
 			$field->setAccessible(true);
